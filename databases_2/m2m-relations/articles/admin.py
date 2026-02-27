@@ -8,11 +8,12 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'text', 'published_at', 'image']
 
 
-class RelationshipInline(admin.TabularInline):
+class ArticleTagInline(admin.TabularInline):
     model = ArticleTag
+    extra = 1
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ['name']
-    inlines = [RelationshipInline]
+    inlines = [ArticleTagInline]
