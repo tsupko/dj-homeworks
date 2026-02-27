@@ -5,4 +5,4 @@ from .models import Article
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['id', 'title', 'text', 'published_at', 'image']
