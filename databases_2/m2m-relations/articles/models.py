@@ -17,11 +17,12 @@ class Article(models.Model):
     text = models.TextField(verbose_name='Текст')
     published_at = models.DateTimeField(verbose_name='Дата публикации')
     image = models.ImageField(null=True, blank=True, verbose_name='Изображение')
-    tags = models.ManyToManyField(Tag, related_name='articles', through='ArticleTag', verbose_name='Разделы')
+    tags = models.ManyToManyField(Tag, related_name='articles', through='ArticleTag')
 
     class Meta:
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
+        ordering = ['-published_at']
 
     def __str__(self):
         return self.title
@@ -34,8 +35,8 @@ class ArticleTag(models.Model):
 
     class Meta:
         unique_together = ('article', 'tag')
-        verbose_name = 'Связь Статья-Раздел'
-        verbose_name_plural = 'Связи Статья-Раздел'
+        verbose_name = 'Тематика статьи'
+        verbose_name_plural = 'Тематики статьи'
 
     def __str__(self):
         return f'{self.article}: {self.tag}'
