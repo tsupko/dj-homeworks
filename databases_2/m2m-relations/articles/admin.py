@@ -12,8 +12,10 @@ class ArticleTagInlineFormset(BaseInlineFormSet):
     def clean(self):
         main_tags_count = sum(form.cleaned_data.get('is_main_tag', False)
                               for form in self.forms if not form.cleaned_data.get('DELETE'))
+        if main_tags_count == 0:
+            raise ValidationError("Укажите основной раздел")
         if main_tags_count != 1:
-            raise ValidationError("У каждой статьи должен быть ровно один основной раздел.")
+            raise ValidationError("Основным может быть только один раздел")
         return super().clean()
 
 
