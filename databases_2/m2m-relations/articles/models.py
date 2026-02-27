@@ -27,6 +27,15 @@ class Tag(models.Model):
         return self.name
 
 
-class Relationship(models.Model):
+class ArticleTag(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    is_main_tag = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('article', 'tag')
+        verbose_name = 'Связь Статья-Раздел'
+        verbose_name_plural = 'Связи Статья-Раздел'
+
+    def __str__(self):
+        return f'{self.article}: {self.tag}'

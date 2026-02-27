@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, Tag, Relationship
+from .models import Article, Tag, ArticleTag
 
 
 @admin.register(Article)
@@ -9,7 +9,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 class RelationshipInline(admin.TabularInline):
-    model = Relationship
+    model = ArticleTag
 
 
 @admin.register(Tag)
