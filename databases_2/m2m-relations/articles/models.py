@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Article(models.Model):
-
     title = models.CharField(max_length=256, verbose_name='Название')
     text = models.TextField(verbose_name='Текст')
     published_at = models.DateTimeField(verbose_name='Дата публикации')
@@ -17,8 +16,8 @@ class Article(models.Model):
 
 
 class Tag(models.Model):
-
     name = models.CharField(max_length=256, verbose_name='Название')
+    articles = models.ManyToManyField(Article, related_name='tags', through='Relationship')
 
     class Meta:
         verbose_name = 'Раздел'
@@ -26,3 +25,8 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Relationship(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
