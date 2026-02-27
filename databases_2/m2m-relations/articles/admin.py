@@ -5,16 +5,10 @@ from django.forms import BaseInlineFormSet
 from .models import Article, Tag, ArticleTag
 
 
-@admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'text', 'published_at', 'image']
-
-
 class ArticleTagInlineFormset(BaseInlineFormSet):
     """
     Переопределяем метод clean(), чтобы убедиться, что у каждой статьи есть ровно один основной раздел.
     """
-
     def clean(self):
         main_tags_count = sum(form.cleaned_data.get('is_main_tag', False)
                               for form in self.forms if not form.cleaned_data.get('DELETE'))
@@ -27,9 +21,15 @@ class ArticleTagInline(admin.TabularInline):
     model = ArticleTag
     extra = 1
     formset = ArticleTagInlineFormset
+    fields = ('tag', 'is_main_tag')
+
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'text', 'published_at', 'image']
+    inlines = [ArticleTagInline]
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ['name']
-    inlines = [ArticleTagInline]
