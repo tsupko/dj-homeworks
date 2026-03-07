@@ -10,7 +10,7 @@ class ArticleTagInlineFormset(BaseInlineFormSet):
     Переопределяем метод clean(), чтобы убедиться, что у каждой статьи есть ровно один основной раздел.
     """
     def clean(self):
-        main_tags_count = sum(form.cleaned_data.get('is_main_tag', False)
+        main_tags_count = sum(form.cleaned_data.get('is_main', False)
                               for form in self.forms if not form.cleaned_data.get('DELETE'))
         if main_tags_count == 0:
             raise ValidationError("Укажите основной раздел")
@@ -23,7 +23,7 @@ class ArticleTagInline(admin.TabularInline):
     model = ArticleTag
     extra = 1
     formset = ArticleTagInlineFormset
-    fields = ('tag', 'is_main_tag')
+    fields = ('tag', 'is_main')
 
 
 @admin.register(Article)

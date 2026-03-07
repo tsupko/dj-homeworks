@@ -29,14 +29,15 @@ class Article(models.Model):
 
 
 class ArticleTag(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='Статья')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='scopes', verbose_name='Статья')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, verbose_name='Раздел')
-    is_main_tag = models.BooleanField(default=False, verbose_name='Основной')
+    is_main = models.BooleanField(default=False, verbose_name='Основной')
 
     class Meta:
         unique_together = ('article', 'tag')
         verbose_name = 'Тематика статьи'
         verbose_name_plural = 'Тематики статьи'
+        ordering = ['-is_main', 'tag__name']
 
     def __str__(self):
         return f'{self.article}: {self.tag}'
