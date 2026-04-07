@@ -16,13 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from rest_framework.routers import DefaultRouter
-
-router = DefaultRouter()
-# TODO: подключите `AdvertisementViewSet`
-
-
 urlpatterns = [
-    path('api/', include(router.urls)),
+    # Подключаем app advertisements по пути /api/advertisements/
+    path('api/advertisements/', include('advertisements.urls')),
     path('admin/', admin.site.urls),
 ]
